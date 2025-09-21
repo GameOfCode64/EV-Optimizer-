@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EV ChargeMaster - Smart EV Charging App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #00ff88;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #00ff88;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 10rem 0 6rem;
+            background: radial-gradient(ellipse at top, rgba(0, 255, 136, 0.15) 0%, transparent 70%);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: #b3b3b3;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .app-preview {
+            max-width: 300px;
+            margin: 3rem auto;
+            position: relative;
+        }
+
+        .phone-mockup {
+            width: 100%;
+            height: 600px;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border-radius: 40px;
+            border: 8px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .phone-screen {
+            width: 90%;
+            height: 90%;
+            background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #00ff88;
+            font-size: 3rem;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .store-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #333;
+            color: #fff;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid #555;
+        }
+
+        .store-btn:hover {
+            background: #444;
+            transform: translateY(-2px);
+        }
+
+        /* Feature Sections */
+        .feature-section {
+            padding: 6rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-section:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .feature-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .feature-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #00ff88;
+        }
+
+        .feature-subtitle {
+            font-size: 1.2rem;
+            color: #b3b3b3;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .feature-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .feature-text h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .feature-text p {
+            font-size: 1.1rem;
+            color: #b3b3b3;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: #b3b3b3;
+        }
+
+        .feature-list .check {
+            width: 24px;
+            height: 24px;
+            background: #00ff88;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .feature-demo {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-demo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+        }
+
+        /* Booking Section */
+        .booking-interface {
+            background: #111;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .booking-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            color: #00ff88;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select {
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 0.8rem;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .book-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Map Section */
+        .map-container {
+            background: #111;
+            border-radius: 15px;
+            height: 400px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #333;
+        }
+
+        .map-placeholder {
+            color: #666;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .station-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .station-card {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .station-card:hover {
+            border-color: #00ff88;
+            transform: translateY(-2px);
+        }
+
+        .station-status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .status-available {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+
+        .status-busy {
+            background: rgba(255, 68, 68, 0.2);
+            color: #ff4444;
+        }
+
+        .status-idle-soon {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        /* Prediction Section */
+        .prediction-dashboard {
+            background: #111;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .prediction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .prediction-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .prediction-time {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #00ff88;
+            margin-bottom: 0.5rem;
+        }
+
+        .prediction-label {
+            color: #b3b3b3;
+            font-size: 0.9rem;
+        }
+
+        /* Carbon Report Section */
+        .carbon-dashboard {
+            background: linear-gradient(135deg, #0d4d2a, #1a5c35);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .carbon-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .carbon-stat {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .carbon-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #00ff88;
+            display: block;
+        }
+
+        .carbon-unit {
+            color: #b3b3b3;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .carbon-chart {
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 6rem 0;
+            text-align: center;
+            background: radial-gradient(ellipse at center, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
+        }
+
+        .cta-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: #ffffff;
+        }
+
+        .cta-subtitle {
+            font-size: 1.2rem;
+            color: #b3b3b3;
+            margin-bottom: 3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .feature-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .feature-title {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .booking-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .glow {
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    ⚡ EV ChargeMaster
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#booking">Book Slots</a></li>
+                    <li><a href="#stations">Find Stations</a></li>
+                    <li><a href="#predictions">AI Predictions</a></li>
+                    <li><a href="#carbon">Carbon Report</a></li>
+                </ul>
+                <a href="#download" class="download-btn">Download App</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Never Wait to Charge Again</h1>
+            <p class="hero-subtitle">
+                The most advanced EV charging app with slot booking, real-time availability, 
+                AI predictions, and comprehensive carbon tracking. Available now on iOS and Android.
+            </p>
+            
+            <div class="app-preview">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div>📱</div>
+                        <div style="font-size: 1rem; margin-top: 1rem; text-align: center;">
+                            EV ChargeMaster<br>
+                            <span style="font-size: 0.8rem; color: #666;">Live Demo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="download-buttons">
+                <a href="#" class="store-btn">
+                    <span style="font-size: 1.5rem;">📱</span>
+                    <div>
+                        <div style="font-size: 0.8rem;">Download on the</div>
+                        <div style="font-weight: 600;">App Store</div>
+                    </div>
+                </a>
+                <a href="#" class="store-btn">
+                    <span style="font-size: 1.5rem;">🤖</span>
+                    <div>
+                        <div style="font-size: 0.8rem;">Get it on</div>
+                        <div style="font-weight: 600;">Google Play</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Booking Section -->
+    <section class="feature-section" id="booking">
+        <div class="container">
+            <div class="feature-header">
+                <h2 class="feature-title">Advanced Slot Booking</h2>
+                <p class="feature-subtitle">Reserve your charging slot up to 7 days in advance. Never wait in line again.</p>
+            </div>
+            
+            <div class="feature-content">
+                <div class="feature-text">
+                    <h3>Book Your Charging Time</h3>
+                    <p>
+                        Our intelligent booking system allows you to reserve charging slots at any participating station. 
+                        Choose your preferred time, duration, and charging speed for a seamless experience.
+                    </p>
+                    <ul class="feature-list">
+                        <li><span class="check">✓</span> Reserve slots up to 7 days ahead</li>
+                        <li><span class="check">✓</span> Flexible 15-minute to 4-hour slots</li>
+                        <li><span class="check">✓</span> Instant confirmation & QR codes</li>
+                        <li><span class="check">✓</span> Smart reminders before your slot</li>
+                        <li><span class="check">✓</span> Easy cancellation up to 1 hour before</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-demo">
+                    <h4 style="color: #00ff88; margin-bottom: 1.5rem; font-size: 1.2rem;">Quick Booking Interface</h4>
+                    <div class="booking-interface">
+                        <div class="booking-form">
+                            <div class="form-group">
+                                <label>Station</label>
+                                <select>
+                                    <option>Tesla Supercharger - Mall Road</option>
+                                    <option>Tata Power - City Center</option>
+                                    <option>Ather Grid - Tech Park</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" value="2025-09-18">
+                            </div>
+                            <div class="form-group">
+                                <label>Time</label>
+                                <select>
+                                    <option>10:00 AM - Available</option>
+                                    <option>11:30 AM - Not Available</option>
+                                    <option>2:00 PM - Available</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Duration</label>
+                                <select>
+                                    <option>30 minutes</option>
+                                    <option>1 hour</option>
+                                    <option>2 hours</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="book-btn pulse">Book Slot Now - ₹120</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Station Discovery Section -->
+    <section class="feature-section" id="stations">
+        <div class="container">
+            <div class="feature-header">
+                <h2 class="feature-title">Smart Station Discovery</h2>
+                <p class="feature-subtitle">Find nearby charging stations with real-time availability and status updates.</p>
+            </div>
+            
+            <div class="feature-content">
+                <div class="feature-demo">
+                    <h4 style="color: #00ff88; margin-bottom: 1.5rem; font-size: 1.2rem;">Interactive Station Map</h4>
+                    <div class="map-container">
+                        <div class="map-placeholder">
+                            🗺️ Live Station Map<br>
+                            <span style="font-size: 0.9rem;">Showing 12 stations within 5km</span>
+                        </div>
+                    </div>
+                    
+                    <div class="station-cards">
+                        <div class="station-card">
+                            <div class="station-status status-available">Available Now</div>
+                            <h5 style="color: #fff; margin-bottom: 0.5rem;">Tesla Supercharger</h5>
+                            <p style="color: #b3b3b3; font-size: 0.9rem;">Mall Road, 2.3km away</p>
+                            <p style="color: #b3b3b3; font-size: 0.9rem;">4/8 chargers free • ₹8/kWh</p>
+                        </div>
+                        <div class="station-card">
+                            <div class="station-status status-busy">All Busy</div>
+                            <h5 style="color: #fff; margin-bottom: 0.5rem;">Tata Power</h5>
+                            <p style="color: #b3b3b3; font-size: 0.9rem;">City Center, 1.8km away</p>
+                            <p style="color: #b3b3b3; font-size: 0.9rem;">0/6 chargers free • ₹6/kWh</p>
+                        </div>
+                        <div class="station-card">
+                            <div class="station-status status-idle-soon">Free in 15min</div>
+                            <h5 style="color: #fff; margin-bottom: 0.5rem;">Ather Grid</h5>
+                            <p style="color: #b3b3b3; font-size: 0.9rem;">Tech Park, 3.1km away</p>
+                            <p style="color: #b3b3b3; font-size: 0.9rem;">1/4 chargers free • ₹7/kWh</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feature-text">
+                    <h3>Real-Time Station Intelligence</h3>
+                    <p>
+                        Our app provides live updates on all charging stations in your area. See exactly which stations 
+                        are available, busy, or will be free soon, along with pricing and connector compatibility.
+                    </p>
+                    <ul class="feature-list">
+                        <li><span class="check">✓</span> Live availability updates every 30 seconds</li>
+                        <li><span class="check">✓</span> Station details: connectors, speed, pricing</li>
+                        <li><span class="check">✓</span> User ratings and reviews</li>
+                        <li><span class="check">✓</span> Turn-by-turn navigation</li>
+                        <li><span class="check">✓</span> Filter by connector type & charging speed</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Predictions Section -->
+    <section class="feature-section" id="predictions">
+        <div class="container">
+            <div class="feature-header">
+                <h2 class="feature-title">AI-Powered Predictions</h2>
+                <p class="feature-subtitle">Know exactly when busy stations will become available with our advanced AI algorithms.</p>
+            </div>
+            
+            <div class="feature-content">
+                <div class="feature-text">
+                    <h3>Predictive Availability Intelligence</h3>
+                    <p>
+                        Our machine learning system analyzes historical usage patterns, current charging sessions, 
+                        and real-time data to predict when stations will become available with 95% accuracy.
+                    </p>
+                    <ul class="feature-list">
+                        <li><span class="check">✓</span> 95% accurate availability predictions</li>
+                        <li><span class="check">✓</span> Estimated wait times for busy stations</li>
+                        <li><span class="check">✓</span> Optimal charging time recommendations</li>
+                        <li><span class="check">✓</span> Peak hour analysis and suggestions</li>
+                        <li><span class="check">✓</span> Personalized route optimization</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-demo">
+                    <h4 style="color: #00ff88; margin-bottom: 1.5rem; font-size: 1.2rem;">Live Prediction Dashboard</h4>
+                    <div class="prediction-dashboard">
+                        <p style="color: #b3b3b3; margin-bottom: 1rem;">Predictions for stations near you:</p>
+                        <div class="prediction-grid">
+                            <div class="prediction-card">
+                                <div class="prediction-time">8min</div>
+                                <div class="prediction-label">Tesla Supercharger<br>Next available slot</div>
+                            </div>
+                            <div class="prediction-card">
+                                <div class="prediction-time">23min</div>
+                                <div class="prediction-label">Tata Power<br>Estimated wait time</div>
+                            </div>
+                            <div class="prediction-card">
+                                <div class="prediction-time">45min</div>
+                                <div class="prediction-label">Ather Grid<br>Optimal charging window</div>
+                            </div>
+                            <div class="prediction-card">
+                                <div class="prediction-time">2hr</div>
+                                <div class="prediction-label">All Stations<br>Next low-traffic period</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(0, 255, 136, 0.1); border-radius: 8px;">
+                            <strong style="color: #00ff88;">💡 Smart Suggestion:</strong> 
+                            <span style="color: #b3b3b3;">Best time to charge today is 2:30 PM at Tesla Supercharger for lowest wait time and cost.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carbon Emission Report Section -->
+    <section class="feature-section" id="carbon">
+        <div class="container">
+            <div class="feature-header">
+                <h2 class="feature-title">Carbon Emission Reports</h2>
+                <p class="feature-subtitle">Track your environmental impact and see how much you're contributing to a cleaner planet.</p>
+            </div>
+            
+            <div class="feature-content">
+                <div class="feature-demo">
+                    <h4 style="color: #00ff88; margin-bottom: 1.5rem; font-size: 1.2rem;">Your Environmental Impact</h4>
+                    <div class="carbon-dashboard">
+                        <div class="carbon-stats">
+                            <div class="carbon-stat">
+                                <span class="carbon-number">2.4</span>
+                                <div class="carbon-unit">Tons CO₂ Saved This Year</div>
+                            </div>
+                            <div class="carbon-stat">
+                                <span class="carbon-number">₹18,750</span>
+                                <div class="carbon-unit">Fuel Cost Savings</div>
+                            </div>
+                            <div class="carbon-stat">
+                                <span class="carbon-number">3,200</span>
+                                <div class="carbon-unit">kWh Green Energy Used</div>
+                            </div>
+                            <div class="carbon-stat">
+                                <span class="carbon-number">847</span>
+                                <div class="carbon-unit">Trees Equivalent Impact</div>
+                            </div>
+                        </div>
+                        
+                        <div class="carbon-chart">
+                            📊 Monthly Carbon Savings Chart<br>
+                            <span style="font-size: 0.9rem;">Interactive chart showing your green impact over time</span>
+                        </div>
+                        
+                        <div style="margin-top: 1.5rem; padding: 1.5rem; background: rgba(0, 255, 136, 0.1); border-radius: 10px; text-align: center;">
+                            <strong style="color: #00ff88; font-size: 1.1rem;">🌱 Congratulations!</strong><br>
+                            <span style="color: #b3b3b3;">You're in the top 15% of eco-friendly drivers in your city. Your EV usage has prevented 2.4 tons of CO₂ emissions this year!</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feature-text">
+                    <h3>Comprehensive Environmental Tracking</h3>
+                    <p>
+                        Get detailed insights into your carbon footprint reduction, fuel savings, and overall environmental 
+                        impact. Share your achievements and inspire others to make the switch to electric mobility.
+                    </p>
+                    <ul class="feature-list">
+                        <li><span class="check">✓</span> Real-time CO₂ emission tracking</li>
+                        <li><span class="check">✓</span> Fuel cost savings calculator</li>
+                        <li><span class="check">✓</span> Monthly and yearly impact reports</li>
+                        <li><span class="check">✓</span> Compare with city and global averages</li>
+                        <li><span class="check">✓</span> Social sharing
